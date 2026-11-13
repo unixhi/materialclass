@@ -46,32 +46,31 @@ internal fun AppScaffold(
 	onBackgroundInterval: (Float) -> Unit,
 	onLogout: () -> Unit,
 ) {
-	val rootRoutes = listOf(AppRoute.Home, AppRoute.Diary, AppRoute.Schedule, AppRoute.Settings)
 	Scaffold(
 		bottomBar = {
-				if (navigator.current in rootRoutes) {
-					NavigationBar(
-						modifier = Modifier.navigationBarsPadding(),
-						containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.96f),
-						tonalElevation = 0.dp,
-					) {
-						rootRoutes.forEach { route ->
-							NavigationBarItem(
-								selected = navigator.current == route,
-								onClick = { navigator.go(route) },
-								icon = { Icon(route.icon(), contentDescription = null) },
-								label = { Text(text(route.labelKey())) },
-								colors = NavigationBarItemDefaults.colors(
-									selectedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-									selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
-									indicatorColor = MaterialTheme.colorScheme.primaryContainer,
-									unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-									unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
-								),
-							)
+			if (navigator.current in ROOT_ROUTES) {
+				NavigationBar(
+					modifier = Modifier.navigationBarsPadding(),
+					containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.96f),
+					tonalElevation = 0.dp,
+				) {
+					ROOT_ROUTES.forEach { route ->
+						NavigationBarItem(
+							selected = navigator.current == route,
+							onClick = { navigator.go(route) },
+							icon = { Icon(route.icon(), contentDescription = null) },
+							label = { Text(text(route.labelKey())) },
+							colors = NavigationBarItemDefaults.colors(
+								selectedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
+								selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+								indicatorColor = MaterialTheme.colorScheme.primaryContainer,
+								unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+								unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+							),
+						)
 						}
 					}
-				}
+			}
 		},
 		snackbarHost = { SnackbarHost(snackbarHostState) },
 	) { padding ->
@@ -108,6 +107,13 @@ internal fun AppScaffold(
 		}
 	}
 }
+
+private val ROOT_ROUTES = listOf(
+	AppRoute.Home,
+	AppRoute.Diary,
+	AppRoute.Schedule,
+	AppRoute.Settings,
+)
 
 private fun AppRoute.labelKey(): String = when (this) {
 	AppRoute.Home -> "nav_home"
